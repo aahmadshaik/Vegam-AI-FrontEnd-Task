@@ -25,10 +25,10 @@ const EditModal: React.FC<EditModalProps> = ({
     onClose();
   };
 
-  const handleInputChange = (field: keyof User, value: string) => {
+  const handleInputChange = (field: string, value: string) => {
     setEditedUser(prev => ({ ...prev, [field]: value }));
   };
-
+const role = user.groups?.[0]?.roles?.[0]?.roleName || "N/A";
   if (!isOpen) return null;
 
   return (
@@ -65,7 +65,7 @@ const EditModal: React.FC<EditModalProps> = ({
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
             <select
-              value={editedUser.role}
+              value={role}
               onChange={(e) => handleInputChange('role', e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >

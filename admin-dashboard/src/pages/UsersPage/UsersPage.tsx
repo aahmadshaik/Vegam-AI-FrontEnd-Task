@@ -19,7 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import Grid from '@mui/material/Grid';
 
 
 interface FilterState {
@@ -258,140 +257,147 @@ const filteredUsers = useMemo(() => {
 
       {/* Filter Panel */}
       <Collapse in={showFilters}>
-        <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
-          <Grid container spacing={3} alignItems="center">
-            {/* Search Query */}
-            <Grid xs={12} md={4}>
-              <TextField
-                fullWidth
-                label="Search users"
-                variant="outlined"
-                value={filters.searchQuery}
-                onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
-                placeholder="Search by name, email, role..."
-                InputProps={{
-                  startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
-                }}
-              />
-            </Grid>
+      <Paper elevation={1} sx={{ p: 3, mb: 3 }}>
+  <Box
+    display="flex"
+    flexWrap="wrap"
+    gap={2}
+    alignItems="center"
+  >
+    {/* Search Query */}
+    <Box flex="1 1 300px">
+      <TextField
+        fullWidth
+        label="Search users"
+        variant="outlined"
+        value={filters.searchQuery}
+        onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
+        placeholder="Search by name, email, role..."
+        InputProps={{
+          startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+        }}
+      />
+    </Box>
 
-            {/* Status Filter */}
-            <Grid xs={12} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status}
-                  label="Status"
-                  onChange={(e) => handleFilterChange('status', e.target.value)}
-                >
-                  <MenuItem value="all">All Status</MenuItem>
-                  <MenuItem value="active">Active</MenuItem>
-                  <MenuItem value="inactive">Inactive</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+    {/* Status Filter */}
+    <Box flex="1 1 150px">
+      <FormControl fullWidth>
+        <InputLabel>Status</InputLabel>
+        <Select
+          value={filters.status}
+          label="Status"
+          onChange={(e) => handleFilterChange('status', e.target.value)}
+        >
+          <MenuItem value="all">All Status</MenuItem>
+          <MenuItem value="active">Active</MenuItem>
+          <MenuItem value="inactive">Inactive</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
 
-            {/* Role Filter */}
-            <Grid xs={12} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Role</InputLabel>
-                <Select
-                  value={filters.role}
-                  label="Role"
-                  onChange={(e) => handleFilterChange('role', e.target.value)}
-                >
-                  <MenuItem value="">All Roles</MenuItem>
-                  {filterOptions.roles.map(role => (
-                    <MenuItem key={role} value={role}>
-                      {role}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+    {/* Role Filter */}
+    <Box flex="1 1 150px">
+      <FormControl fullWidth>
+        <InputLabel>Role</InputLabel>
+        <Select
+          value={filters.role}
+          label="Role"
+          onChange={(e) => handleFilterChange('role', e.target.value)}
+        >
+          <MenuItem value="">All Roles</MenuItem>
+          {filterOptions.roles.map((role) => (
+            <MenuItem key={role} value={role}>
+              {role}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
 
-            {/* Department Filter */}
-            <Grid xs={12} md={2}>
-              <FormControl fullWidth>
-                <InputLabel>Department</InputLabel>
-                <Select
-                  value={filters.department}
-                  label="Department"
-                  onChange={(e) => handleFilterChange('department', e.target.value)}
-                >
-                  <MenuItem value="">All Departments</MenuItem>
-                  {filterOptions.departments.map(dept => (
-                    <MenuItem key={dept} value={dept}>
-                      {dept}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+    {/* Department Filter */}
+    <Box flex="1 1 150px">
+      <FormControl fullWidth>
+        <InputLabel>Department</InputLabel>
+        <Select
+          value={filters.department}
+          label="Department"
+          onChange={(e) => handleFilterChange('department', e.target.value)}
+        >
+          <MenuItem value="">All Departments</MenuItem>
+          {filterOptions.departments.map((dept) => (
+            <MenuItem key={dept} value={dept}>
+              {dept}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
 
-            {/* Clear Filters Button */}
-            <Grid xs={12} md={2}>
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<ClearIcon />}
-                onClick={clearAllFilters}
-                disabled={activeFilterCount === 0}
-              >
-                Clear Filters
-              </Button>
-            </Grid>
-          </Grid>
+    {/* Clear Filters Button */}
+    <Box flex="1 1 150px">
+      <Button
+        fullWidth
+        variant="outlined"
+        startIcon={<ClearIcon />}
+        onClick={clearAllFilters}
+        disabled={activeFilterCount === 0}
+      >
+        Clear Filters
+      </Button>
+    </Box>
+  </Box>
 
-          {/* Active Filters Display */}
-          {activeFilterCount > 0 && (
-            <Box mt={2} display="flex" gap={1} flexWrap="wrap">
-              <Typography variant="body2" color="text.secondary" sx={{ mr: 1, mt: 0.5 }}>
-                Active filters:
-              </Typography>
-              
-              {filters.searchQuery && (
-                <Chip
-                  label={`Search: "${filters.searchQuery}"`}
-                  onDelete={() => handleFilterChange('searchQuery', '')}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                />
-              )}
-              
-              {filters.status !== 'all' && (
-                <Chip
-                  label={`Status: ${filters.status}`}
-                  onDelete={() => handleFilterChange('status', 'all')}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                />
-              )}
-              
-              {filters.role && (
-                <Chip
-                  label={`Role: ${filters.role}`}
-                  onDelete={() => handleFilterChange('role', '')}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                />
-              )}
-              
-              {filters.department && (
-                <Chip
-                  label={`Department: ${filters.department}`}
-                  onDelete={() => handleFilterChange('department', '')}
-                  size="small"
-                  color="primary"
-                  variant="outlined"
-                />
-              )}
-            </Box>
-          )}
-        </Paper>
+  {/* Active Filters Display */}
+  {activeFilterCount > 0 && (
+    <Box mt={2} display="flex" gap={1} flexWrap="wrap">
+      <Typography variant="body2" color="text.secondary" sx={{ mr: 1, mt: 0.5 }}>
+        Active filters:
+      </Typography>
+
+      {filters.searchQuery && (
+        <Chip
+          label={`Search: "${filters.searchQuery}"`}
+          onDelete={() => handleFilterChange('searchQuery', '')}
+          size="small"
+          color="primary"
+          variant="outlined"
+        />
+      )}
+
+      {filters.status !== 'all' && (
+        <Chip
+          label={`Status: ${filters.status}`}
+          onDelete={() => handleFilterChange('status', 'all')}
+          size="small"
+          color="primary"
+          variant="outlined"
+        />
+      )}
+
+      {filters.role && (
+        <Chip
+          label={`Role: ${filters.role}`}
+          onDelete={() => handleFilterChange('role', '')}
+          size="small"
+          color="primary"
+          variant="outlined"
+        />
+      )}
+
+      {filters.department && (
+        <Chip
+          label={`Department: ${filters.department}`}
+          onDelete={() => handleFilterChange('department', '')}
+          size="small"
+          color="primary"
+          variant="outlined"
+        />
+      )}
+    </Box>
+  )}
+</Paper>
+
+
       </Collapse>
 
       {/* User Table */}
