@@ -21,14 +21,33 @@ import {
   ChevronRight
 } from "@mui/icons-material";
 
-interface User {
-role: string;
-userId: number;   // coming from API
+export interface Role {
+  roleId: string;
+  roleName: string;
+}
+
+export interface Group {
+  groupId: string;
+  groupName: string;
+  roles: Role[];
+}
+
+export interface User {
+  userId: number; // coming from API
   Name: string;
   Email: string;
   Status: 'active' | 'inactive';
   CreatedAt: string;
+  groups: Group[];
 }
+
+export interface UserResponse {
+  data: {
+    totalCount: number;
+    users: User[];
+  };
+}
+
 
 interface UserTableProps {
   users: User[];
@@ -77,6 +96,8 @@ const UserTable: React.FC<UserTableProps> = ({
   rowsPerPage = 10
 }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  console.log(users, "===== users data =====")
 
   // Calculate pagination
   const totalPages = Math.ceil(users.length / rowsPerPage);
@@ -156,7 +177,10 @@ const UserTable: React.FC<UserTableProps> = ({
                 </TableCell>
               </TableRow>
             ) : (
-              currentUsers.map((user) => (
+              currentUsers.map((user) => {
+                      const userRole = user.groups?.[0]?.roles?.[0]?.roleName || "N/A";
+
+                return (
                 <TableRow key={user.userId} hover>
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -169,7 +193,7 @@ const UserTable: React.FC<UserTableProps> = ({
                   </TableCell>
                   <TableCell>{user.Email}</TableCell>
                   <TableCell>
-                    <Chip label={user.role} color="primary" size="small" />
+                    <Chip label={userRole} color="primary" size="small" />
                   </TableCell>
                   <TableCell>
                     <StatusButton
@@ -199,8 +223,8 @@ const UserTable: React.FC<UserTableProps> = ({
                       </IconButton>
                     </Box>
                   </TableCell>
-                </TableRow>
-              ))
+                </TableRow>)
+})
             )}
           </TableBody>
         </Table>

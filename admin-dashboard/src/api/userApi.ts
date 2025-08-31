@@ -1,11 +1,30 @@
+export interface Role {
+  roleId: string;
+  roleName: string;
+}
+
+export interface Group {
+  groupId: string;
+  groupName: string;
+  roles: Role[];
+}
+
 export interface User {
-role: string;
-userId: number;   // coming from API
+  userId: number; // coming from API
   Name: string;
   Email: string;
   Status: 'active' | 'inactive';
   CreatedAt: string;
+  groups: Group[];
 }
+
+export interface UserResponse {
+  data: {
+    totalCount: number;
+    users: User[];
+  };
+}
+
 
 export interface ApiResponse<T> {
   data: T;
@@ -16,7 +35,6 @@ class UserApi {
   static async getUsers(): Promise<ApiResponse<User[]>> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
-    // http://127.0.0.1:8000/api/users
     return {
       data: []
 
