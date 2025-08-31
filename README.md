@@ -1,4 +1,3 @@
-Here’s a polished, updated README for your project that reflects everything you’ve done, including React + TypeScript, MUI, JSONBin fetch, local status toggle, edit/delete, filtering, and pagination:
 
 ---
 
